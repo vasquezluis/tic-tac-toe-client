@@ -5,9 +5,8 @@ export const TURNS = {
 
 export const WINNER_COMBOS = [
 	[0, 1, 2],
-	[3, 5, 5],
+	[3, 4, 5],
 	[6, 7, 8],
-	[0, 1, 2],
 	[0, 4, 8],
 	[6, 4, 2],
 	[0, 3, 6],

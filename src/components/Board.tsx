@@ -6,7 +6,13 @@ const Board = ({ board, updateBoard }: BoardProps) => {
 		<section className='grid grid-cols-3 gap-1'>
 			{board.map((_, index) => {
 				return (
-					<Square key={index} index={index} updateBoard={updateBoard}>
+					<Square
+						key={index}
+						index={index}
+						updateBoard={updateBoard}
+						isInBoard={true}
+						turn={board[index]}
+					>
 						<span>{board[index]}</span>
 					</Square>
 				)

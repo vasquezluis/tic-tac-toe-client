@@ -40,7 +40,6 @@ function App() {
 		const newBoard = [...board]
 		newBoard[index] = turn
 		setBoard(newBoard)
-		console.log(newBoard)
 
 		// change turn
 		const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
@@ -64,7 +63,7 @@ function App() {
 
 	return (
 		<main className='flex h-screen w-full flex-col items-center justify-center bg-neutral-800'>
-			<h1 className='text-3xl font-bold text-white'>Tic Tac Toe</h1>
+			<h1 className='text-3xl font-bold text-white'>TIC TAC TOE</h1>
 
 			<button
 				className='m-3 rounded-md border border-neutral-500 px-3 py-2 font-bold text-neutral-300 transition-all hover:border-white hover:bg-neutral-950 hover:text-white'

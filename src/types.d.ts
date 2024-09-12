@@ -10,4 +10,7 @@ export type SquareProps = {
 	isSelected?: boolean
 	updateBoard?: (index: number) => void
 	index?: number
+	isInBoard: boolean
+	turn: string
+	isWinner?: boolean
 }
