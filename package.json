@@ -1,0 +1,39 @@
+{
+	"name": "tic-tac-toe",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc -b && vite build",
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
+		"preview": "vite preview",
+		"prepare": "husky install"
+	},
+	"lint-staged": {
+		"**/*": "prettier --write --ignore-unknown"
+	},
+	"dependencies": {
+		"clsx": "^2.1.1",
+		"react": "18.3.1",
+		"react-dom": "18.3.1",
+		"tailwind-merge": "^2.5.2"
+	},
+	"devDependencies": {
+		"@types/canvas-confetti": "1.6.4",
+		"@types/react": "18.3.3",
+		"@types/react-dom": "18.3.0",
+		"@vitejs/plugin-react-swc": "3.5.0",
+		"autoprefixer": "^10.4.20",
+		"canvas-confetti": "1.9.3",
+		"husky": "^9.1.6",
+		"lint-staged": "15.2.10",
+		"postcss": "8.4.45",
+		"prettier": "3.3.3",
+		"prettier-plugin-tailwindcss": "0.6.6",
+		"tailwindcss": "3.4.11",
+		"typescript": "5.5.3",
+		"vite": "5.4.1"
+	}
+}
