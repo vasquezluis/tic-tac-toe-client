@@ -12,7 +12,11 @@ function App() {
 	const [winner, setWinner] = useState<string | null | boolean>(null)
 	const [turn, setTurn] = useTurn()
 	const [board, setBoard] = useBoard()
-	const resetGame = useResetGame({ setBoard, setTurn, setWinner })
+	const { handleResetGame, resetGameLocal } = useResetGame({
+		setBoard,
+		setTurn,
+		setWinner,
+	})
 	const { updateBoard } = useUpdateBoard({
 		board,
 		setBoard,
@@ -20,7 +24,7 @@ function App() {
 		setWinner,
 		winner,
 	})
-	const { sendValueToServer } = useSocket({ updateBoard })
+	const { sendValueToServer } = useSocket({ updateBoard, resetGameLocal })
 
 	return (
 		<main className='flex h-screen w-full flex-col items-center justify-center bg-neutral-800'>
@@ -28,7 +32,7 @@ function App() {
 
 			<button
 				className='m-3 rounded-md border border-neutral-500 px-3 py-2 font-bold text-neutral-300 transition-all hover:border-white hover:bg-neutral-950 hover:text-white'
-				onClick={resetGame}
+				onClick={handleResetGame}
 			>
 				Resetear juego
 			</button>
@@ -42,7 +46,7 @@ function App() {
 				turn={turn}
 			/>
 
-			<Winner resetGame={resetGame} winner={winner} />
+			<Winner resetGame={handleResetGame} winner={winner} />
 		</main>
 	)
 }

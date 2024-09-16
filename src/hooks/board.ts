@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react'
 import { checkWinner, checkEndGame } from '../lib/utils'
 import confetti from 'canvas-confetti'
 import { TURNS } from '../lib/constants'
-import { resetGameToStorage } from '../lib/utils'
 import {
 	type UpdateBoardProps,
 	type ResetGameProps,
 	SocketValueProps,
 } from '../types'
+import { getSocketInstance } from './socket'
 
 export const useBoard = (): [
 	Array<string | null>,
@@ -58,13 +58,18 @@ export const useResetGame = ({
 	setTurn,
 	setWinner,
 }: ResetGameProps) => {
-	const resetGame = () => {
+	const { socket } = getSocketInstance()
+
+	const handleResetGame = () => {
+		resetGameLocal()
+		socket.emit('resetGame')
+	}
+
+	const resetGameLocal = () => {
 		setBoard(Array(9).fill(null))
 		setTurn(TURNS.X)
 		setWinner(null)
-
-		resetGameToStorage()
 	}
 
-	return resetGame
+	return { handleResetGame, resetGameLocal }
 }

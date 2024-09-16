@@ -46,6 +46,7 @@ export type SocketValueProps = {
 
 export type UseSocketProps = {
 	updateBoard: ({ index, value, player }: SocketValueProps) => void
+	resetGameLocal: () => void
 }
 
 export type UpdateBoardProps = {

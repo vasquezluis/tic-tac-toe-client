@@ -4,7 +4,7 @@ import { type SocketValueProps, type UseSocketProps } from '../types'
 
 const socket: Socket = io('')
 
-export const useSocket = ({ updateBoard }: UseSocketProps) => {
+export const useSocket = ({ updateBoard, resetGameLocal }: UseSocketProps) => {
 	const sendValueToServer = ({ index, value, player }: SocketValueProps) => {
 		socket.emit('board', { index, value, player })
 	}
@@ -21,5 +21,19 @@ export const useSocket = ({ updateBoard }: UseSocketProps) => {
 		}
 	}, [])
 
+	useEffect(() => {
+		socket.on('resetGame', () => {
+			resetGameLocal()
+		})
+
+		return () => {
+			socket.off('resetGame')
+		}
+	}, [socket])
+
 	return { sendValueToServer }
+}
+
+export const getSocketInstance = () => {
+	return { socket }
 }
