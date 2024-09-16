@@ -1,65 +1,46 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-import { TURNS } from './lib/constants'
+import { io, Socket } from 'socket.io-client'
+const socket: Socket = io('')
+import { type SocketValueProps } from './types'
+
 import Board from './components/Board'
 import Turn from './components/Turn'
-import {
-	saveGameToStorage,
-	checkEndGame,
-	checkWinner,
-	resetGameToStorage,
-} from './lib/utils'
-import confetti from 'canvas-confetti'
 import Winner from './components/Winner'
 
+import { useBoard, useResetGame, useUpdateBoard } from './hooks/board'
+import { useTurn } from './hooks/turn'
+
 function App() {
+	const [turn, setTurn] = useTurn()
 	const [winner, setWinner] = useState<string | null | boolean>(null)
-	const [turn, setTurn] = useState(() => {
-		const turnFromStorage = window.localStorage.getItem('board')
-		return turnFromStorage ?? TURNS.X
-	})
-	const [board, setBoard] = useState(() => {
-		const boardFromStorage = window.localStorage.getItem('board')
-		if (boardFromStorage !== null) return JSON.parse(boardFromStorage)
-		return Array(9).fill(null)
+	const [board, setBoard] = useBoard()
+	const { updateBoard } = useUpdateBoard({
+		board,
+		turn,
+		setBoard,
+		setTurn,
+		setWinner,
+		winner,
 	})
 
-	const resetGame = () => {
-		setBoard(Array(9).fill(null))
-		setTurn(TURNS.X)
-		setWinner(null)
+	const resetGame = useResetGame({ setBoard, setTurn, setWinner })
 
-		resetGameToStorage()
+	const sendValueToServer = ({ index, value }: SocketValueProps) => {
+		socket.emit('value', { index, value })
 	}
 
-	const updateBoard = (index: number) => {
-		// don't update if index has something
-		if (board[index] || winner) return
+	useEffect(() => {
+		socket.on('value', (data) => {
+			const { index, value } = data.body
 
-		// update board
-		const newBoard = [...board]
-		newBoard[index] = turn
-		setBoard(newBoard)
-
-		// change turn
-		const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
-		setTurn(newTurn)
-
-		// save board to localStorage
-		saveGameToStorage({
-			board: newBoard,
-			turn: newTurn,
+			updateBoard({ index, value })
 		})
 
-		// check for a winner
-		const newWinner = checkWinner(newBoard)
-		if (newWinner !== null) {
-			confetti()
-			setWinner(newWinner)
-		} else if (checkEndGame(newBoard)) {
-			setWinner(false)
+		return () => {
+			socket.off('value')
 		}
-	}
+	}, [])
 
 	return (
 		<main className='flex h-screen w-full flex-col items-center justify-center bg-neutral-800'>
@@ -74,7 +55,12 @@ function App() {
 
 			<Turn turn={turn} />
 
-			<Board board={board} updateBoard={updateBoard} />
+			<Board
+				board={board}
+				updateBoard={updateBoard}
+				sendValueToServer={sendValueToServer}
+				turn={turn}
+			/>
 
 			<Winner resetGame={resetGame} winner={winner} />
 		</main>

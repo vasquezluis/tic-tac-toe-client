@@ -1,13 +1,10 @@
 import { cn } from '../lib/utils'
-import { type SquareProps } from '../types'
+import { type SquareProps, type SquareBoardProps } from '../types'
 import { TURNS } from '../lib/constants'
 
-const Square = ({
+export const Square = ({
 	children,
 	isSelected,
-	updateBoard,
-	index,
-	isInBoard,
 	turn,
 	isWinner,
 }: SquareProps) => {
@@ -16,17 +13,36 @@ const Square = ({
 		{
 			'bg-sky-500': isSelected && turn === TURNS.O,
 			'bg-green-500': isSelected && turn === TURNS.X,
-			'bg-sky-500/80': isInBoard && turn === TURNS.O,
-			'bg-green-500/80': isInBoard && turn === TURNS.X,
-			'cursor-pointer': isInBoard && turn !== TURNS.X && turn !== TURNS.O,
 			'bg-yellow-500 border-2 border-yellow-600': isWinner,
 		}
 	)}`
 
-	const handleClick = () => {
-		if (updateBoard !== undefined && index !== undefined) {
-			updateBoard(index)
+	return <div className={className}>{children}</div>
+}
+
+export const SquareBoard = ({
+	children,
+	updateBoard,
+	index,
+	turn,
+	turnInBoard,
+	sendValueToServer,
+}: SquareBoardProps) => {
+	const className = `${cn(
+		'w-[100px] h-[100px] grid place-items-center text-white rounded-md border border-neutral-300 cursor-pointer',
+		{
+			'bg-sky-500/80': turnInBoard === TURNS.O,
+			'bg-green-500/80': turnInBoard === TURNS.X,
 		}
+	)}`
+
+	const handleClick = () => {
+		// send value to server
+		sendValueToServer({
+			index,
+			value: turn,
+		})
+		updateBoard({ index, value: turn })
 
 		return
 	}
@@ -37,5 +53,3 @@ const Square = ({
 		</div>
 	)
 }
-
-export default Square

@@ -1,20 +1,21 @@
 import { type BoardProps } from '../types'
-import Square from './Square'
+import { SquareBoard } from './Square'
 
-const Board = ({ board, updateBoard }: BoardProps) => {
+const Board = ({ board, updateBoard, sendValueToServer, turn }: BoardProps) => {
 	return (
 		<section className='grid grid-cols-3 gap-1'>
 			{board.map((_, index) => {
 				return (
-					<Square
+					<SquareBoard
 						key={index}
 						index={index}
 						updateBoard={updateBoard}
-						isInBoard={true}
-						turn={board[index]}
+						turn={turn}
+						turnInBoard={board[index]}
+						sendValueToServer={sendValueToServer}
 					>
 						<span>{board[index]}</span>
-					</Square>
+					</SquareBoard>
 				)
 			})}
 		</section>

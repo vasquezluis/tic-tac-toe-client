@@ -1,12 +1,7 @@
-import Square from './Square'
+import { Square } from './Square'
+import { type WinnerProps } from '../types'
 
-const Winner = ({
-	winner,
-	resetGame,
-}: {
-	winner: string | null | boolean
-	resetGame: () => void
-}) => {
+const Winner = ({ winner, resetGame }: WinnerProps) => {
 	if (winner === null) return null
 
 	const winnerText = winner === false ? 'Empate' : 'Ganador'
@@ -18,7 +13,7 @@ const Winner = ({
 
 				<header className='mx-auto my-0 flex w-fit gap-4 rounded-md'>
 					{winner && typeof winner === 'string' && (
-						<Square isInBoard={false} turn={winner} isWinner={true}>
+						<Square turn={winner} isWinner={true}>
 							{winner}
 						</Square>
 					)}
