@@ -1,46 +1,26 @@
-import { useState, useEffect } from 'react'
-
-import { io, Socket } from 'socket.io-client'
-const socket: Socket = io('')
-import { type SocketValueProps } from './types'
+import { useState } from 'react'
 
 import Board from './components/Board'
 import Turn from './components/Turn'
 import Winner from './components/Winner'
 
 import { useBoard, useResetGame, useUpdateBoard } from './hooks/board'
+import { useSocket } from './hooks/socket'
 import { useTurn } from './hooks/turn'
 
 function App() {
-	const [turn, setTurn] = useTurn()
 	const [winner, setWinner] = useState<string | null | boolean>(null)
+	const [turn, setTurn] = useTurn()
 	const [board, setBoard] = useBoard()
+	const resetGame = useResetGame({ setBoard, setTurn, setWinner })
 	const { updateBoard } = useUpdateBoard({
 		board,
-		turn,
 		setBoard,
 		setTurn,
 		setWinner,
 		winner,
 	})
-
-	const resetGame = useResetGame({ setBoard, setTurn, setWinner })
-
-	const sendValueToServer = ({ index, value }: SocketValueProps) => {
-		socket.emit('value', { index, value })
-	}
-
-	useEffect(() => {
-		socket.on('value', (data) => {
-			const { index, value } = data.body
-
-			updateBoard({ index, value })
-		})
-
-		return () => {
-			socket.off('value')
-		}
-	}, [])
+	const { sendValueToServer } = useSocket({ updateBoard })
 
 	return (
 		<main className='flex h-screen w-full flex-col items-center justify-center bg-neutral-800'>

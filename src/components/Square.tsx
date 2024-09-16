@@ -41,8 +41,9 @@ export const SquareBoard = ({
 		sendValueToServer({
 			index,
 			value: turn,
+			player: turn,
 		})
-		updateBoard({ index, value: turn })
+		updateBoard({ index, value: turn, player: turn })
 
 		return
 	}

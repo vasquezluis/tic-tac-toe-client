@@ -6,7 +6,7 @@ import { resetGameToStorage } from '../lib/utils'
 import {
 	type UpdateBoardProps,
 	type ResetGameProps,
-	SocketProps,
+	SocketValueProps,
 } from '../types'
 
 export const useBoard = (): [
@@ -20,16 +20,13 @@ export const useBoard = (): [
 
 export const useUpdateBoard = ({
 	board,
-	turn,
 	setBoard,
 	setTurn,
 	setWinner,
 	winner,
 }: UpdateBoardProps) => {
-	const updateBoard = ({ index, value }: SocketProps) => {
+	const updateBoard = ({ index, value, player }: SocketValueProps) => {
 		if (board[index] || winner) return
-
-		console.log({ index, value })
 
 		setBoard((prevBoard) => {
 			const newBoard = [...prevBoard]
@@ -38,7 +35,7 @@ export const useUpdateBoard = ({
 		})
 
 		// change turn
-		const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
+		const newTurn = player === TURNS.X ? TURNS.O : TURNS.X
 		setTurn(newTurn)
 	}
 

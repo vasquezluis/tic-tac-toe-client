@@ -1,26 +1,25 @@
-// import { useState, useEffect } from 'react'
-// import { io, Socket } from 'socket.io-client'
-// import { type SocketValueProps, type UseSocketReturn } from '../types'
+import { useEffect } from 'react'
+import { io, Socket } from 'socket.io-client'
+import { type SocketValueProps, type UseSocketProps } from '../types'
 
-// const socket: Socket = io('')
+const socket: Socket = io('')
 
-// export const useSocket = (): UseSocketReturn => {
-// 	const [value, setValue] = useState<SocketValueProps | undefined>(undefined)
+export const useSocket = ({ updateBoard }: UseSocketProps) => {
+	const sendValueToServer = ({ index, value, player }: SocketValueProps) => {
+		socket.emit('board', { index, value, player })
+	}
 
-// 	const sendValue = ({ index, value }: SocketValueProps) => {
-// 		socket.emit('value', { index, value })
-// 	}
+	useEffect(() => {
+		socket.on('board', (data) => {
+			const { index, value, player } = data.body
 
-// 	useEffect(() => {
-// 		socket.on('value', (data) => {
-// 			console.log('value: ', data)
-// 			setValue(data)
-// 		})
+			updateBoard({ index, value, player })
+		})
 
-// 		return () => {
-// 			socket.off('value')
-// 		}
-// 	}, [])
+		return () => {
+			socket.off('board')
+		}
+	}, [])
 
-// 	return { value, sendValue }
-// }
+	return { sendValueToServer }
+}

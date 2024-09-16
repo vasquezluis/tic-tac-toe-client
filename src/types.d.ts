@@ -4,11 +4,6 @@ export type TurnProps = {
 
 export type BoardValue = string | null
 
-export type SocketProps = {
-	index: number
-	value: string
-}
-
 export type BoardProps = {
 	board: Value[]
 	turn: string
@@ -46,16 +41,15 @@ export type WinnerProps = {
 export type SocketValueProps = {
 	index: number
 	value: string
+	player: string
 }
 
-export type UseSocketReturn = {
-	value?: SocketValueProps
-	sendValue: ({ index, value }: SocketValueProps) => void
+export type UseSocketProps = {
+	updateBoard: ({ index, value, player }: SocketValueProps) => void
 }
 
 export type UpdateBoardProps = {
 	board: Array<string | null>
-	turn: string
 	setBoard: React.Dispatch<React.SetStateAction<Array<string | null>>>
 	setTurn: (turn: string) => void
 	setWinner: (winner: string | false | null) => void
