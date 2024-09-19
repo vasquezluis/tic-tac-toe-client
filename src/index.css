@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.custom-button {
+	@apply rounded-md bg-neutral-700 px-3 py-2 text-white transition-all duration-200 ease-in-out hover:bg-black;
+}

@@ -41,11 +41,10 @@ export type WinnerProps = {
 export type SocketValueProps = {
 	index: number
 	value: string
-	player: string
 }
 
 export type UseSocketProps = {
-	updateBoard: ({ index, value, player }: SocketValueProps) => void
+	updateBoard: ({ index, value }: SocketValueProps) => void
 	resetGameLocal: () => void
 }
 
@@ -55,4 +54,29 @@ export type UpdateBoardProps = {
 	setTurn: (turn: string) => void
 	setWinner: (winner: string | false | null) => void
 	winner: string | null | boolean
+}
+
+type userData = {
+	id: string
+	name: string
+}
+
+export interface IRoomStore {
+	id: string
+	setRoomData: (id: string) => void
+}
+
+export interface IUserStore {
+	id: string
+	name: string
+	setUserData: (data: userData) => void
+}
+
+export interface ISocketData {
+	roomCode: string
+	player: number
+}
+
+export type TErrorSocketData = {
+	message: string
 }

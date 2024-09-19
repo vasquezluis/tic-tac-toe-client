@@ -25,7 +25,7 @@ export const useUpdateBoard = ({
 	setWinner,
 	winner,
 }: UpdateBoardProps) => {
-	const updateBoard = ({ index, value, player }: SocketValueProps) => {
+	const updateBoard = ({ index, value }: SocketValueProps) => {
 		if (board[index] || winner) return
 
 		setBoard((prevBoard) => {
@@ -35,7 +35,7 @@ export const useUpdateBoard = ({
 		})
 
 		// change turn
-		const newTurn = player === TURNS.X ? TURNS.O : TURNS.X
+		const newTurn = value === TURNS.X ? TURNS.O : TURNS.X
 		setTurn(newTurn)
 	}
 
