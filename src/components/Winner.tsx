@@ -1,7 +1,8 @@
 import { Square } from './Square'
-import { type WinnerProps } from '../types'
+import { useBoardStore } from '../lib/stores/board.store'
 
-const Winner = ({ winner, resetGame }: WinnerProps) => {
+const Winner = ({ resetGame }: { resetGame: () => void }) => {
+	const winner = useBoardStore((state) => state.winner)
 	if (winner === null) return null
 
 	const resultText = winner === false ? 'Empate' : 'Ganador'

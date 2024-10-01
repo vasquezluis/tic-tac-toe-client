@@ -2,18 +2,16 @@ import { useEffect } from 'react'
 import { checkWinner, checkEndGame } from '../lib/utils'
 import confetti from 'canvas-confetti'
 import { TURNS } from '../lib/constants'
-import {
-	type UpdateBoardProps,
-	type ResetGameProps,
-	SocketValueProps,
-} from '../types'
+import { SocketValueProps } from '../types'
 import { getSocketInstance } from './socket'
 import { useBoardStore } from '../lib/stores/board.store'
 
-export const useUpdateBoard = ({ setWinner, winner }: UpdateBoardProps) => {
+export const useUpdateBoard = () => {
 	const board = useBoardStore((state) => state.board)
 	const setTurn = useBoardStore((state) => state.setTurn)
 	const changeIndexValue = useBoardStore((state) => state.changeIndexValue)
+	const winner = useBoardStore((state) => state.winner)
+	const setWinner = useBoardStore((state) => state.setWinner)
 
 	const updateBoard = ({ index, value }: SocketValueProps) => {
 		if (board[index] || winner) return
@@ -39,10 +37,11 @@ export const useUpdateBoard = ({ setWinner, winner }: UpdateBoardProps) => {
 	return { updateBoard }
 }
 
-export const useResetGame = ({ setWinner }: ResetGameProps) => {
+export const useResetGame = () => {
 	const { socket } = getSocketInstance()
 	const setBoard = useBoardStore((state) => state.setBoard)
 	const setTurn = useBoardStore((state) => state.setTurn)
+	const setWinner = useBoardStore((state) => state.setWinner)
 
 	const handleResetGame = () => {
 		resetGameLocal()

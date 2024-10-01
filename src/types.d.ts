@@ -5,8 +5,6 @@ export type TurnProps = {
 export type BoardValue = string | null
 
 export type BoardProps = {
-	board: Array<string | null>
-	turn: string
 	updateBoard: (SocketProps) => void
 	sendValueToServer: (SocketValueProps) => void
 }
@@ -22,13 +20,12 @@ export type SquareBoardProps = {
 	children: ReactNode
 	updateBoard: ({ index, value }: SocketValueProps) => void
 	index: number
-	turn: string
 	turnInBoard: string | null
 	sendValueToServer: ({ index, value }: SocketValueProps) => void
 }
 
 export type ResetGameProps = {
-	setWinner: React.Dispatch<React.SetStateAction<string | boolean | null>>
+	setWinner: (value: string | null | boolean) => void
 }
 
 export type WinnerProps = {
@@ -79,8 +76,10 @@ export type TErrorSocketData = {
 export interface IBoardStore {
 	board: Array<string | null>
 	turn: string
+	winner: string | null | boolean
 	setBoard: (board: Array<string | null>) => void
 	setTurn: (turn: string) => void
+	setWinner: (value: string | null | boolean) => void
 	changeIndexValue: ({
 		index,
 		value,

@@ -5,6 +5,7 @@ import { TURNS } from '../constants'
 const initialValues = {
 	board: Array(9).fill(null),
 	turn: TURNS.X,
+	winner: null,
 }
 
 export const useBoardStore = create<IBoardStore>((set) => ({
@@ -17,6 +18,11 @@ export const useBoardStore = create<IBoardStore>((set) => ({
 	setTurn(turn) {
 		set({
 			turn,
+		})
+	},
+	setWinner(value) {
+		set({
+			winner: value,
 		})
 	},
 	changeIndexValue({ index, value }) {

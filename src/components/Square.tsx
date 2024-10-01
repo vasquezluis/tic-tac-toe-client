@@ -1,7 +1,6 @@
 import { cn } from '../lib/utils'
 import { type SquareProps, type SquareBoardProps } from '../types'
 import { TURNS } from '../lib/constants'
-import { errorToast } from './Loaders'
 import { useBoardStore } from '../lib/stores/board.store'
 
 export const Square = ({
@@ -28,10 +27,11 @@ export const SquareBoard = ({
 	children,
 	updateBoard,
 	index,
-	turn,
 	turnInBoard,
 	sendValueToServer,
 }: SquareBoardProps) => {
+	const turn = useBoardStore((state) => state.turn)
+
 	const className = `${cn(
 		'w-[100px] h-[100px] grid place-items-center text-white rounded-md border border-neutral-300 cursor-pointer',
 		{
@@ -43,7 +43,7 @@ export const SquareBoard = ({
 	const board = useBoardStore((state) => state.board)
 
 	const handleClick = () => {
-		errorToast(`${board[index]}`)
+		if (board[index]) return
 
 		// send value to server
 		sendValueToServer({
@@ -51,8 +51,6 @@ export const SquareBoard = ({
 			value: turn,
 		})
 		updateBoard({ index, value: turn })
-
-		return
 	}
 
 	return (

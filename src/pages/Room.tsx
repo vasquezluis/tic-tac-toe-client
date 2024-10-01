@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import Board from '../components/Board'
 import Turn from '../components/Turn'
@@ -10,14 +10,9 @@ import { useRoomSocketEvents } from '../hooks/socket'
 import { useRoomStore } from '../lib/stores/room.store'
 import { useNavigate } from 'react-router-dom'
 
-import { useBoardStore } from '../lib/stores/board.store'
-
 function Room() {
-	const [winner, setWinner] = useState<string | null | boolean>(null)
-	const { board, turn } = useBoardStore()
-
-	const { handleResetGame, resetGameLocal } = useResetGame({ setWinner })
-	const { updateBoard } = useUpdateBoard({ setWinner, winner })
+	const { handleResetGame, resetGameLocal } = useResetGame()
+	const { updateBoard } = useUpdateBoard()
 	const { sendValueToServer } = useRoomSocketEvents({
 		updateBoard,
 		resetGameLocal,
@@ -44,16 +39,11 @@ function Room() {
 				Reset game
 			</button>
 
-			<Turn turn={turn} />
+			<Turn />
 
-			<Board
-				board={board}
-				updateBoard={updateBoard}
-				sendValueToServer={sendValueToServer}
-				turn={turn}
-			/>
+			<Board updateBoard={updateBoard} sendValueToServer={sendValueToServer} />
 
-			<Winner resetGame={handleResetGame} winner={winner} />
+			<Winner resetGame={handleResetGame} />
 		</main>
 	)
 }

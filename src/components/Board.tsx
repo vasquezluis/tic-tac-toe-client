@@ -2,7 +2,7 @@ import { type BoardProps } from '../types'
 import { SquareBoard } from './Square'
 import { useBoardStore } from '../lib/stores/board.store'
 
-const Board = ({ updateBoard, sendValueToServer, turn }: BoardProps) => {
+const Board = ({ updateBoard, sendValueToServer }: BoardProps) => {
 	const board = useBoardStore((state) => state.board)
 
 	return (
@@ -13,7 +13,6 @@ const Board = ({ updateBoard, sendValueToServer, turn }: BoardProps) => {
 						key={index}
 						index={index}
 						updateBoard={updateBoard}
-						turn={turn}
 						turnInBoard={board[index]}
 						sendValueToServer={sendValueToServer}
 					>
