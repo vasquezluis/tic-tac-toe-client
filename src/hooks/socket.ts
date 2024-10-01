@@ -9,6 +9,8 @@ import {
 import { successToast, errorToast } from '../components/Loaders'
 import { useNavigate } from 'react-router-dom'
 import { useRoomStore } from '../lib/stores/room.store'
+import { usePlayerStore } from '../lib/stores/player.store'
+import { TURNS } from '../lib/constants'
 
 const socket: Socket = io('')
 
@@ -51,17 +53,22 @@ export const useHomeSocketEvents = (roomCode: string) => {
 
 	const handleCreateRoom = () => {
 		socket.emit('createRoom')
+
+		const setPlayerData = usePlayerStore.getState().setPlayerData
+		setPlayerData({ player: TURNS.X })
 	}
 
 	const handleJoinRoom = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
 		socket.emit('joinRoom', roomCode)
+
+		const setPlayerData = usePlayerStore.getState().setPlayerData
+		setPlayerData({ player: TURNS.O })
 	}
 
 	useEffect(() => {
 		const handleRoomCreated = (data: ISocketData) => {
-			console.log(`Room created: ${data.roomCode} Player: ${data.player}`)
 			successToast(`Room ${data.roomCode} created`)
 			setRoomData(data.roomCode)
 			navigate('/room')

@@ -9,6 +9,7 @@ import { useRoomSocketEvents } from '../hooks/socket'
 
 import { useRoomStore } from '../lib/stores/room.store'
 import { useNavigate } from 'react-router-dom'
+import { usePlayerStore } from '../lib/stores/player.store'
 
 function Room() {
 	const { handleResetGame, resetGameLocal } = useResetGame()
@@ -21,6 +22,8 @@ function Room() {
 	const roomId = useRoomStore((state) => state.id)
 	const navigate = useNavigate()
 
+	const player = usePlayerStore((state) => state.player)
+
 	useEffect(() => {
 		if (roomId === '') {
 			navigate('/')
@@ -31,6 +34,7 @@ function Room() {
 		<main className='flex h-screen w-full flex-col items-center justify-center bg-neutral-800'>
 			<h1 className='text-3xl font-bold text-white'>TIC TAC TOE</h1>
 			<span className='text-white'>room id: {roomId}</span>
+			<span className='text-xl font-bold text-orange-500'>Player {player}</span>
 
 			<button
 				className='m-3 rounded-md border border-neutral-500 px-3 py-2 font-bold text-neutral-300 transition-all hover:border-white hover:bg-neutral-950 hover:text-white'

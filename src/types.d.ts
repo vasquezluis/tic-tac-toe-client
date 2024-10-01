@@ -48,9 +48,8 @@ export type UpdateBoardProps = {
 	winner: string | null | boolean
 }
 
-type userData = {
-	id: string
-	name: string
+type playerData = {
+	player: string
 }
 
 export interface IRoomStore {
@@ -58,10 +57,9 @@ export interface IRoomStore {
 	setRoomData: (id: string) => void
 }
 
-export interface IUserStore {
-	id: string
-	name: string
-	setUserData: (data: userData) => void
+export interface IPlayerStore {
+	player: string
+	setPlayerData: (data: playerData) => void
 }
 
 export interface ISocketData {
