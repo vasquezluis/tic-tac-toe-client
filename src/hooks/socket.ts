@@ -28,6 +28,7 @@ export const useRoomSocketEvents = ({
 		socket.on('board', (data) => {
 			const { index, value } = data.body
 
+			successToast(`Data from server ${value}`)
 			updateBoard({ index, value })
 		})
 

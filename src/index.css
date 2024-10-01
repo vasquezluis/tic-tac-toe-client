@@ -5,3 +5,7 @@
 .custom-button {
 	@apply rounded-md bg-neutral-700 px-3 py-2 text-white transition-all duration-200 ease-in-out hover:bg-black;
 }
+
+.button-entrar {
+	@apply rounded-md bg-neutral-500 px-2 py-1 text-white hover:bg-neutral-800;
+}

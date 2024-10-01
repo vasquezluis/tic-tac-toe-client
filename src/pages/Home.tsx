@@ -28,9 +28,7 @@ const Home = () => {
 						}}
 						placeholder='095dfa'
 					/>
-					<button className='rounded-md bg-neutral-500 px-2 py-1 text-white hover:bg-neutral-800'>
-						Entrar
-					</button>
+					<button className='button-entrar'>Entrar</button>
 				</form>
 			</section>
 		</main>

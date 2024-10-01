@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { checkWinner, checkEndGame } from '../lib/utils'
 import confetti from 'canvas-confetti'
 import { TURNS } from '../lib/constants'
@@ -8,31 +8,17 @@ import {
 	SocketValueProps,
 } from '../types'
 import { getSocketInstance } from './socket'
+import { useBoardStore } from '../lib/stores/board.store'
 
-export const useBoard = (): [
-	Array<string | null>,
-	React.Dispatch<React.SetStateAction<Array<string | null>>>,
-] => {
-	const [board, setBoard] = useState(Array(9).fill(null))
+export const useUpdateBoard = ({ setWinner, winner }: UpdateBoardProps) => {
+	const board = useBoardStore((state) => state.board)
+	const setTurn = useBoardStore((state) => state.setTurn)
+	const changeIndexValue = useBoardStore((state) => state.changeIndexValue)
 
-	return [board, setBoard]
-}
-
-export const useUpdateBoard = ({
-	board,
-	setBoard,
-	setTurn,
-	setWinner,
-	winner,
-}: UpdateBoardProps) => {
 	const updateBoard = ({ index, value }: SocketValueProps) => {
 		if (board[index] || winner) return
 
-		setBoard((prevBoard) => {
-			const newBoard = [...prevBoard]
-			newBoard[index] = value
-			return newBoard
-		})
+		changeIndexValue({ index, value })
 
 		// change turn
 		const newTurn = value === TURNS.X ? TURNS.O : TURNS.X
@@ -53,12 +39,10 @@ export const useUpdateBoard = ({
 	return { updateBoard }
 }
 
-export const useResetGame = ({
-	setBoard,
-	setTurn,
-	setWinner,
-}: ResetGameProps) => {
+export const useResetGame = ({ setWinner }: ResetGameProps) => {
 	const { socket } = getSocketInstance()
+	const setBoard = useBoardStore((state) => state.setBoard)
+	const setTurn = useBoardStore((state) => state.setTurn)
 
 	const handleResetGame = () => {
 		resetGameLocal()
