@@ -7,8 +7,10 @@ export default defineConfig({
 	server: {
 		proxy: {
 			'/socket.io': {
-				target: 'http://localhost:3000',
+				target: 'https://tic-tac-toe-server-ao4x.onrender.com',
 				ws: true,
+				changeOrigin: true,
+				secure: false,
 			},
 		},
 	},
